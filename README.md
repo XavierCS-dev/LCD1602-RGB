@@ -6,13 +6,13 @@ Some functions are marked unsafe as they allow writing of arbitrary values to ar
 
 This my first real embedded Rust project, and I used the following resources:
 
-[PCA9633 Datasheet](https://www.nxp.com/docs/en/data-sheet/PCA9633.pdf)
-[AiP21068 Datasheet](https://support.newhavendisplay.com/hc/en-us/article_attachments/4414498095511/AiP31068.pdf)
-[Embedded HAL Docs](https://docs.rs/embedded-hal/0.2.3/embedded_hal/blocking/i2c/trait.Write.html)
-[Raspberry Pi Pico Pinout Datasheet](https://datasheets.raspberrypi.com/pico/Pico-R3-A4-Pinout.pdf)
-[LCD1602-RGB Datasheet](https://www.waveshare.com/w/upload/2/2e/LCD1602_RGB_Module.pdf)
-[LCD1602 i2c driver by JohnSL](https://github.com/JohnSL/lcd_1602_i2c)
-[Pi Pico Project Template](https://github.com/rp-rs/rp2040-project-template)
+- [PCA9633 Datasheet](https://www.nxp.com/docs/en/data-sheet/PCA9633.pdf)
+- [AiP21068 Datasheet](https://support.newhavendisplay.com/hc/en-us/article_attachments/4414498095511/AiP31068.pdf)
+- [Embedded HAL Docs](https://docs.rs/embedded-hal/0.2.3/embedded_hal/blocking/i2c/trait.Write.html)
+- [Raspberry Pi Pico Pinout Datasheet](https://datasheets.raspberrypi.com/pico/Pico-R3-A4-Pinout.pdf)
+- [LCD1602-RGB Datasheet](https://www.waveshare.com/w/upload/2/2e/LCD1602_RGB_Module.pdf)
+- [LCD1602 i2c driver by JohnSL](https://github.com/JohnSL/lcd_1602_i2c)
+- [Pi Pico Project Template](https://github.com/rp-rs/rp2040-project-template)
 
 ### Usage:
 
