@@ -110,9 +110,7 @@ where I: i2c::Write,
 
     /// Clear the LCD
     pub fn clear(&mut self) -> Result<(), I::Error> {
-        unsafe {
-            self.write_lcd(LCD_CLEARDISPLAY)?;
-        }
+        self.write_lcd(LCD_CLEARDISPLAY)?;
         self.delay.delay_ms(5);
         Ok(())
     }
