@@ -16,6 +16,8 @@ This my first real embedded Rust project, and I used the following resources:
 
 ## Usage:
 
+### Raspberry Pi Pico
+
 Follow the instructions here: https://github.com/rp-rs/rp2040-project-template
 
 Include latest version in `Cargo.toml`:
@@ -84,4 +86,6 @@ loop {
 - ⬜️ Cleanup of code.
     - ⬜️ Improve consistency.
     - ⬜️ Organise.
-- ⬜️ Find alternative to emotes for checkboxes in `README.md`
+- ⬜️ Find alternative to emotes for checkboxes in `README.md`.
+- ⬜️ Create instructions for usage with other platforms.
+- ⬜️ Improve Raspberry Pi Pico usage instructions.
