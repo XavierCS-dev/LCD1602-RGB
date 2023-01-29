@@ -76,11 +76,12 @@ loop {
 ```
 
 ### To Do:
-- [] Remove platform-specific dependencies.
-- [] Implement on/off according to specification sheet.
-- [] Implement remaining missing instructions.
-- [] Verify behaviour of AiP31068 when writing more than 16 characters to one line.
-    - [] Adjust functionality accordingly.
-- [] Cleanup of code.
-    - [] Improve consistency.
-    - [] Organise.
+- ⬜️ Remove platform-specific dependencies.
+- ⬜️ Implement on/off according to specification sheet.
+- ⬜️ Implement remaining missing instructions.
+- ⬜️ Verify behaviour of AiP31068 when writing more than 16 characters to one line.
+    - ⬜️ Adjust functionality accordingly.
+- ⬜️ Cleanup of code.
+    - ⬜️ Improve consistency.
+    - ⬜️ Organise.
+- ⬜️ Find alternative to emotes for checkboxes in `README.md`
