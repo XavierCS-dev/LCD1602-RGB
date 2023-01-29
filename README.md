@@ -78,7 +78,7 @@ loop {
 ```
 
 ## To Do:
-- ⬜️ Remove platform-specific dependencies.
+- ✅ Remove platform-specific dependencies. [238d4c0](https://github.com/XavierCyber/LCD1602-RGB/commit/238d4c093fe0b703e5741430c480315f86229ee8)
 - ⬜️ Implement on/off according to specification sheet.
 - ⬜️ Implement remaining missing instructions.
 - ⬜️ Verify behaviour of AiP31068 when writing more than 16 characters to one line.
