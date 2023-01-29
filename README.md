@@ -1,4 +1,4 @@
-## LCD1602RGB Driver
+# LCD1602RGB Driver
 Driver for the LCD1602RGB segmented LCD, it is not intended for use with other segmented LCDs, however you may be able to use this driver for some basic functionality.
 
 I wrote this driver for my own personal use and will maintain it and add implement missing instructions when I need them, however feel free to submit a pull request.
@@ -14,7 +14,7 @@ This my first real embedded Rust project, and I used the following resources:
 - [LCD1602 i2c driver by JohnSL](https://github.com/JohnSL/lcd_1602_i2c)
 - [Pi Pico Project Template](https://github.com/rp-rs/rp2040-project-template)
 
-### Usage:
+## Usage:
 
 Follow the instructions here: https://github.com/rp-rs/rp2040-project-template
 
@@ -75,7 +75,7 @@ loop {
 }
 ```
 
-### To Do:
+## To Do:
 - ⬜️ Remove platform-specific dependencies.
 - ⬜️ Implement on/off according to specification sheet.
 - ⬜️ Implement remaining missing instructions.
