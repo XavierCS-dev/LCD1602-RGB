@@ -1,8 +1,8 @@
 # LCD1602RGB Driver
 Driver for the LCD1602RGB segmented LCD, it is not intended for use with other segmented LCDs, however you may be able to use this driver for some basic functionality.
 
-I wrote this driver for my own personal use and will maintain it and add implement missing instructions when I need them, however feel free to submit a pull request.
-Some functions are marked unsafe as they allow writing of arbitrary values to arbitrary addresses, that can result in unexpected behaviour.
+I wrote this driver for my own personal use and will maintain it and implement missing instructions when I need them,
+especially concerning an application I plan to work on. However feel free to submit a pull request.
 
 This my first real embedded Rust project, and I used the following resources:
 
