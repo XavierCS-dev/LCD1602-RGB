@@ -32,7 +32,7 @@ Use this example code in the `main.rs` of the rp2040 project template.
 let mut scl_pin = pins.gpio15.into_mode::<gpio::FunctionI2C>();
 let mut sda_pin = pins.gpio14.into_mode::<gpio::FunctionI2C>();
 let i2c_dev = i2c::I2C::new_controller(pac.I2C1, sda_pin, scl_pin, 400_u32.kHz(), &mut pac.RESETS, clocks.system_clock.freq());
-let mut display_controller = Display::new(i2c_dev, 62 as u8, 96 as u8, delay).unwrap();
+let mut display_controller = Display::new(i2c_dev, delay).unwrap();
 display_controller.write_text("Hello, World! How are you?").unwrap();
 let mut r: u8 = 0;
 let mut g: u8 = 255;
