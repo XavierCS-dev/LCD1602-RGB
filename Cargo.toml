@@ -2,6 +2,12 @@
 name = "lcd1602rgb-rs"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+keywords = ["lcd1602", "RGB", "embedded", "no-std"]
+categories = ["hardware-support", "embedded", "no-std"]
+description = "Native Rust driver for the waveshare LCD1602-RGB display module."
+repository = "https://github.com/XavierCyber/LCD1602-RGB"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
