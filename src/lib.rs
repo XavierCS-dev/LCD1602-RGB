@@ -6,12 +6,6 @@ use consts::*;
 use embedded_hal::blocking::delay::DelayMs;
 use embedded_hal::blocking::i2c;
 
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-
-
 // display settings on LCD startup
 // N = 1, 2 line display
 // F=0, 5x8 dots font
@@ -58,10 +52,9 @@ where I: i2c::Write,
     }
 
     fn initialise(&mut self) -> Result<(), I::Error> {
-        unsafe {
-            self.try_write_init_values()?;
-            self.write_lcd(LCD_DISPLAYCONTROL | LCD_DISPLAYON)?;
-        }
+        self.try_write_init_values()?;
+        self.write_lcd(LCD_DISPLAYCONTROL | LCD_DISPLAYON)?;
+
         self.delay.delay_ms(10);
             
         // initialise mode1 rgb register, PCA9633 does not respond to I2C subaddresses or All Call address, and is set to normal mode
@@ -77,36 +70,23 @@ where I: i2c::Write,
         self.backlight_colour(0, 0, 0)
     }
 
-    unsafe fn try_write_init_values(&mut self) -> Result<(), I::Error> {
+    fn try_write_init_values(&mut self) -> Result<(), I::Error> {
         self.delay.delay_ms(50);
-        self.write_lcd(LCD_FUNCTIONSET | LCD_5X8DOTS | LCD_8BITMODE | LCD_2LINE)?;
-        self.delay.delay_ms(10);
-            // Set display to move left to write
-        self.write_lcd(LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT)?;
-        self.delay.delay_ms(10);
-        self.write_lcd(LCD_FUNCTIONSET | LCD_5X8DOTS | LCD_8BITMODE | LCD_2LINE)?;
-        self.delay.delay_ms(10);
-            // Set display to move left to write
-        self.write_lcd(LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT)?;
-        self.delay.delay_ms(10);
-        self.write_lcd(LCD_FUNCTIONSET | LCD_5X8DOTS | LCD_8BITMODE | LCD_2LINE)?;
-        self.delay.delay_ms(10);
-        // Set display to move left to write
-        self.write_lcd(LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT)?;
-        self.delay.delay_ms(10);
+        // Try three times
+        for _ in 0..3 {
+            // Set display to move left to right
+            self.write_lcd(LCD_ENTRYMODESET | LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT)?;
+            self.delay.delay_ms(10);
+            self.write_lcd(LCD_FUNCTIONSET | LCD_5X8DOTS | LCD_8BITMODE | LCD_2LINE)?;
+            self.delay.delay_ms(10);
+        }
         Ok(())        
     }
 
-    pub fn on(&mut self) -> Result<(), I::Error> 
-    {
-        self.initialise()
-    }
-
     /// Write command to the LCD.
-    pub unsafe fn write_lcd(&mut self, cmd: u8) -> Result<(), I::Error> {
+    pub fn write_lcd(&mut self, cmd: u8) -> Result<(), I::Error> {
         self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, cmd])
     }
-
 
     /// Insert a string at the current cursor position, can overflow.
     pub fn write_string(&mut self, string: &str) -> Result<(), I::Error> {
@@ -126,12 +106,6 @@ where I: i2c::Write,
     /// Write the the RGB register
     fn write_rgb (&mut self, register: u8, data: u8) -> Result<(), I::Error> {
         self.device.write(self.rgb_addr, &[register, data])
-    }
-
-    /// Experimental: Turn off the backlight and LCD.
-    pub unsafe fn off(&mut self) -> Result<(), I::Error> {
-        self.backlight_colour(0, 0, 0)?;
-        self.write_lcd(LCD_FUNCTIONSET | LCD_DISPLAYCONTROL | LCD_DISPLAYOFF)
     }
 
     /// Clear the LCD
@@ -174,9 +148,9 @@ where I: i2c::Write,
         } else {
             panic!("Row index out of range, expected 0-1, got {}", row);
         }
-        
     }
 
+    // check whether writing out of bounds when pushing characters matters
     /// Writes text to the display utilising both lines. Will not order words so they fit completely on the same line.
     pub fn write_text(&mut self, string: &str) -> Result<(), I::Error> {
         self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0x80])?;
@@ -199,6 +173,18 @@ where I: i2c::Write,
     }
 }
 
+/*
+pub fn on(&mut self) -> Result<(), I::Error> 
+{
+    self.initialise()
+}
+
+/// Experimental: Turn off the backlight and LCD.
+pub unsafe fn off(&mut self) -> Result<(), I::Error> {
+    self.backlight_colour(0, 0, 0)?;
+    self.write_lcd(LCD_FUNCTIONSET | LCD_DISPLAYCONTROL | LCD_DISPLAYOFF)
+}
+*/
 
 /*
 #[cfg(test)]
