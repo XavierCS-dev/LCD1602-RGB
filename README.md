@@ -23,7 +23,7 @@ Follow the instructions here: https://github.com/rp-rs/rp2040-project-template
 Include latest version in `Cargo.toml`:
 ```toml
 [dependencies]
-lcd1602rgb-rs = "0.1.0"
+lcd1602rgb-rs = "0.2.0"
 ```
 
 Use this example code in the `main.rs` of the rp2040 project template.
