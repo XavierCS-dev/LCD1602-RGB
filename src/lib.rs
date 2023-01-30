@@ -84,8 +84,16 @@ where
         Ok(())
     }
 
+    /// Write data directly to registers of the device.
+    /// Specify a write address, then sub-address with data.
+    /// Marked as unsafe as writing to the incorrect memory addresses can have unintended side effects.
+    pub unsafe fn write_data(&mut self, address: u8, bytes: &[u8]) -> Result<(), I::Error> {
+        self.device.write(address, bytes)?;
+        Ok(())
+    }
+
     /// Write command to the LCD.
-    pub fn write_lcd(&mut self, cmd: u8) -> Result<(), I::Error> {
+    fn write_lcd(&mut self, cmd: u8) -> Result<(), I::Error> {
         self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, cmd])?;
         Ok(())
     }

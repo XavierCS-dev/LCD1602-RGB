@@ -1,6 +1,6 @@
 [package]
 name = "lcd1602rgb-rs"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 keywords = ["lcd1602", "RGB", "embedded", "no-std"]
