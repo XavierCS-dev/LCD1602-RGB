@@ -11,7 +11,6 @@ use embedded_hal::blocking::i2c;
 // F=0, 5x8 dots font
 // D=1, Display on
 
-
 // reset routine triggered automatically upon startup, with settings:
 // N=1, 2-line display
 // Display clear
@@ -25,8 +24,9 @@ use embedded_hal::blocking::i2c;
 // Make sure to set the basic settings
 
 pub struct Display<I, D>
-where I: i2c::Write,
-      D: DelayMs<u16>,
+where
+    I: i2c::Write,
+    D: DelayMs<u16>,
 {
     device: I,
     lcd_addr: u8,
@@ -35,12 +35,12 @@ where I: i2c::Write,
 }
 
 impl<I, D> Display<I, D>
-where I: i2c::Write,
-      D: DelayMs<u16>, 
+where
+    I: i2c::Write,
+    D: DelayMs<u16>,
 {
     /// Creates a display struct and initialises the physical i2c display.
-    pub fn new(i2c_dev: I, delay: D) -> Result<Display<I, D>, I::Error > {
-
+    pub fn new(i2c_dev: I, delay: D) -> Result<Display<I, D>, I::Error> {
         let mut display = Display {
             device: i2c_dev,
             lcd_addr: 62,
@@ -56,7 +56,7 @@ where I: i2c::Write,
         self.write_lcd(LCD_DISPLAYCONTROL | LCD_DISPLAYON)?;
 
         self.delay.delay_ms(10);
-            
+
         // initialise mode1 rgb register, PCA9633 does not respond to I2C subaddresses or All Call address, and is set to normal mode
         self.write_rgb(REG_MODE1, 0x00)?;
 
@@ -67,7 +67,8 @@ where I: i2c::Write,
         self.write_rgb(REG_OUTPUT, 0xFF)?;
         //self.on()
         self.clear()?;
-        self.backlight_colour(0, 0, 0)
+        self.backlight_colour(0, 0, 0)?;
+        Ok(())
     }
 
     fn try_write_init_values(&mut self) -> Result<(), I::Error> {
@@ -80,12 +81,13 @@ where I: i2c::Write,
             self.write_lcd(LCD_FUNCTIONSET | LCD_5X8DOTS | LCD_8BITMODE | LCD_2LINE)?;
             self.delay.delay_ms(10);
         }
-        Ok(())        
+        Ok(())
     }
 
     /// Write command to the LCD.
     pub fn write_lcd(&mut self, cmd: u8) -> Result<(), I::Error> {
-        self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, cmd])
+        self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, cmd])?;
+        Ok(())
     }
 
     /// Insert a string at the current cursor position, can overflow.
@@ -104,8 +106,9 @@ where I: i2c::Write,
     }
 
     /// Write the the RGB register
-    fn write_rgb (&mut self, register: u8, data: u8) -> Result<(), I::Error> {
-        self.device.write(self.rgb_addr, &[register, data])
+    fn write_rgb(&mut self, register: u8, data: u8) -> Result<(), I::Error> {
+        self.device.write(self.rgb_addr, &[register, data])?;
+        Ok(())
     }
 
     /// Clear the LCD
@@ -119,19 +122,24 @@ where I: i2c::Write,
     pub fn backlight_colour(&mut self, r: u8, g: u8, b: u8) -> Result<(), I::Error> {
         self.write_rgb(REG_RED, r)?;
         self.write_rgb(REG_GREEN, g)?;
-        self.write_rgb(REG_BLUE, b)
+        self.write_rgb(REG_BLUE, b)?;
+        Ok(())
     }
 
     /// Write the the first line, can overflow.
     pub fn write_line_one(&mut self, string: &str) -> Result<(), I::Error> {
-        self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0x80])?;
-        self.write_string(string)
+        self.device
+            .write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0x80])?;
+        self.write_string(string)?;
+        Ok(())
     }
 
     /// Write to the second line, can overflow.
     pub fn write_line_two(&mut self, string: &str) -> Result<(), I::Error> {
-        self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0xc0])?;
-        self.write_string(string)
+        self.device
+            .write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0xc0])?;
+        self.write_string(string)?;
+        Ok(())
     }
 
     /// Set the current cursor position, to be used in conjuction with `write_char()` and `write_string()`.
@@ -140,9 +148,11 @@ where I: i2c::Write,
             panic!("Column index out of range, expected 0-15, got {}", column);
         }
         if row == 0 {
-            self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, column | 0x80])
+            self.device
+                .write(self.lcd_addr, &[LCD_SETDDRAMADDR, column | 0x80])
         } else if row == 1 {
-            self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, column | 0xc0])
+            self.device
+                .write(self.lcd_addr, &[LCD_SETDDRAMADDR, column | 0xc0])
         } else {
             panic!("Row index out of range, expected 0-1, got {}", row);
         }
@@ -151,7 +161,8 @@ where I: i2c::Write,
     // check whether writing out of bounds when pushing characters matters
     /// Writes text to the display utilising both lines. Will not order words so they fit completely on the same line.
     pub fn write_text(&mut self, string: &str) -> Result<(), I::Error> {
-        self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0x80])?;
+        self.device
+            .write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0x80])?;
         let string_len = string.len();
         let mut str_iter = string.chars();
         if string_len <= 16 {
@@ -162,7 +173,8 @@ where I: i2c::Write,
             for _ in 0..16 {
                 self.write_char(str_iter.next().unwrap())?;
             }
-            self.device.write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0xc0])?;
+            self.device
+                .write(self.lcd_addr, &[LCD_SETDDRAMADDR, 0xc0])?;
             for character in str_iter {
                 self.write_char(character)?;
             }
@@ -170,29 +182,3 @@ where I: i2c::Write,
         Ok(())
     }
 }
-
-/*
-pub fn on(&mut self) -> Result<(), I::Error> 
-{
-    self.initialise()
-}
-
-/// Experimental: Turn off the backlight and LCD.
-pub unsafe fn off(&mut self) -> Result<(), I::Error> {
-    self.backlight_colour(0, 0, 0)?;
-    self.write_lcd(LCD_FUNCTIONSET | LCD_DISPLAYCONTROL | LCD_DISPLAYOFF)
-}
-*/
-
-/*
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
-*/

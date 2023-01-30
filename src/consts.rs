@@ -1,26 +1,19 @@
-#![no_std]
-
 /*
-	pub constants as specified by the HS310140A and AiP31068 Data sheets
-	Ported from lcd1602_RGB_Module.h from waveshare pico C demo
+    pub constants as specified by the HS310140A and AiP31068 Data sheets
+    Ported from lcd1602_RGB_Module.h from waveshare pico C demo
 */
-
-
-
-
 pub const WHITE: u8 = 0;
 pub const RED: u8 = 1;
 pub const GREEN: u8 = 2;
 pub const BLUE: u8 = 3;
 
-pub const REG_RED: u8 = 0x04;        // pwm2
-pub const REG_GREEN: u8 = 0x03;        // pwm1
-pub const REG_BLUE: u8 = 0x02;        // pwm0
+pub const REG_RED: u8 = 0x04; // pwm2
+pub const REG_GREEN: u8 = 0x03; // pwm1
+pub const REG_BLUE: u8 = 0x02; // pwm0
 
 pub const REG_MODE1: u8 = 0x00;
 pub const REG_MODE2: u8 = 0x01;
 pub const REG_OUTPUT: u8 = 0x08;
-
 
 ///  commands
 pub const LCD_CLEARDISPLAY: u8 = 0x01;
