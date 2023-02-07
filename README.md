@@ -78,14 +78,14 @@ loop {
 ```
 
 ## To Do:
-- ✅ Remove platform-specific dependencies. [238d4c0](https://github.com/XavierCyber/LCD1602-RGB/commit/238d4c093fe0b703e5741430c480315f86229ee8)
-- ⬜️ Implement on/off according to specification sheet.
-- ⬜️ Implement remaining missing instructions.
-- ⬜️ Verify behaviour of AiP31068 when writing more than 16 characters to one line.
-    - ⬜️ Adjust functionality accordingly.
-- ⬜️ Cleanup of code.
-    - ⬜️ Improve consistency.
-    - ⬜️ Organise.
-- ⬜️ Find alternative to emotes for checkboxes in `README.md`.
-- ⬜️ Create instructions for usage with other platforms.
-- ⬜️ Improve Raspberry Pi Pico usage instructions.
+- [x] Remove platform-specific dependencies. [238d4c0](https://github.com/XavierCyber/LCD1602-RGB/commit/238d4c093fe0b703e5741430c480315f86229ee8)
+- [ ] Implement on/off according to specification sheet.
+- [ ] Implement remaining missing instructions.
+- [ ] Verify behaviour of AiP31068 when writing more than 16 characters to one line.
+    - [ ] Adjust functionality accordingly.
+- [ ] Cleanup of code.
+    - [ ] Improve consistency.
+    - [ ] Organise.
+- [x] Find alternative to emotes for checkboxes in `README.md`.
+- [ ] Create instructions for usage with other platforms.
+- [ ] Improve Raspberry Pi Pico usage instructions.
